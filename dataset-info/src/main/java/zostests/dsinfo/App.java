@@ -27,10 +27,10 @@ public class App {
     }
 
     private void printDatasetDetails(String ddName) {
+        System.out.printf("DD:%s%n", ddName);
         try {
             printDatasetDetailsWithZFile(ddName);
             printDataSetDetailsWithJFCBAndDSCB(ddName);
-            System.out.println();
         } catch (ZFileException e) {
             throw new RuntimeException(e);
         }
@@ -39,7 +39,7 @@ public class App {
 
     private void printDataSetDetailsWithJFCBAndDSCB(String ddName) throws ZFileException {
         JFCB jfcb = ZFile.readJFCB(ddName);
-        printDatasetDetails(ddName,
+        printDatasetDetails(
                 JFCB.class.getSimpleName(),
                 jfcb.getJfcbdsnm(),
                 jfcb.getJfcbvols(),
@@ -47,10 +47,10 @@ public class App {
                 jfcb.getJfclrecl(),
                 String.valueOf(jfcb.getJfcrecfm()));
         Format1DSCB dscb = ZFile.obtainDSN(String.format("'%s'", jfcb.getJfcbdsnm()), jfcb.getJfcbvols());
-        printDatasetDetails(ddName,
+        printDatasetDetails(
                 Format1DSCB.class.getSimpleName(),
+                dscb.getDS1DSNAM(),
                 dscb.getDS1DSSN(),
-                String.valueOf(dscb.getDS1VOLSQ()),
                 dscb.getDS1BLKL(),
                 dscb.getDS1LRECL(),
                 String.valueOf(dscb.getDS1RECFM()));
@@ -58,7 +58,7 @@ public class App {
 
     private static void printDatasetDetailsWithZFile(String ddName) throws ZFileException {
         ZFile zFile = new ZFile(String.format("//DD:%s", ddName), "r");
-        printDatasetDetails(ddName,
+        printDatasetDetails(
                 ZFile.class.getSimpleName(),
                 zFile.getActualFilename(),
                 "N/A", zFile.getBlksize(),
@@ -67,15 +67,14 @@ public class App {
         zFile.close();
     }
 
-    private static void printDatasetDetails(String ddName, String className, String dsname, String volser, int blksize, int lrecl, String recfm) {
+    private static void printDatasetDetails(String className, String dsname, String volser, int blksize, int lrecl, String recfm) {
         System.out.printf(
-                "DD: %s - Dataset details using %s methods%n" +
+                "Dataset details using %s methods%n" +
                 "\tDSNAME.: %s%n" +
                 "\tVOLSER.: %s%n" +
                 "\tBLKSIZE: %d%n" +
                 "\tLRECL..: %d%n" +
                 "\tRECFM..: %s%n",
-                ddName,
                 className,
                 dsname,
                 volser,
