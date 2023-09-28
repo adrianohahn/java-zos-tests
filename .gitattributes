@@ -1,0 +1,26 @@
+#
+# https://help.github.com/articles/dealing-with-line-endings/
+#
+# Linux start script should use lf
+/gradlew        text eol=lf
+
+# These are Windows script files and should use crlf
+*.bat           text eol=crlf
+
+#
+# Settings for z/OS Unix System Services
+
+# encode all files as EBCDIC unless mentioned elsewhere
+*               zos-working-tree-encoding=ibm-1047
+
+# Tag jars as binary
+*.jar           binary
+
+# encode selected files as ASCII
+*.java          zos-working-tree-encoding=iso8859-1
+gradlew         zos-working-tree-encoding=iso8859-1
+*.gradle        zos-working-tree-encoding=iso8859-1
+*.properties    zos-working-tree-encoding=iso8859-1
+.gitattributes  zos-working-tree-encoding=iso8859-1
+.gitignore      zos-working-tree-encoding=iso8859-1
+
